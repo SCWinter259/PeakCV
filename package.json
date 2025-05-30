@@ -1,0 +1,29 @@
+{
+  "name": "peakcv",
+  "version": "1.0.0",
+  "description": "A CV improvement app",
+  "main": "index.js",
+  "scripts": {
+    "format": "prettier --write \"peakcv/src/**/*.tsx\" \"server/**/*.ts\"",
+    "prepare": "husky"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^9.27.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.1.0",
+    "prettier": "^3.5.3"
+  },
+  "lint-staged": {
+    "peakcv/**/*.{ts,tsx,js,jsx,json}": [
+      "eslint --config peakcv/eslint.config.mjs --fix",
+      "prettier --write"
+    ],
+    "server/**/*.{ts,tsx,js,jsx,json}": [
+      "eslint --config server/eslint.config.mjs --fix",
+      "prettier --write"
+    ]
+  }
+}

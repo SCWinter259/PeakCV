@@ -1,3 +1,4 @@
+'use client';
 import Before from "./Before"
 
 export default function Home() {
