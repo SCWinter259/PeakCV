@@ -23,6 +23,22 @@ How generated resume should be:
 - First make it restricted to one Latex format for developers
 - Improve, adapt later if possible
 
+# Color pick
+
+| Tailwind           | Use case                       |
+|--------------------|--------------------------------|
+| `bg-black`         | Background                     |
+| `bg-neutral-900`   | Surface                        |
+| `bg-gray-800`      | Card/Panel                     |
+| `border-slate-700` | Border                         |
+| `text-gray-100`    | Text Primary                   |
+| `text-gray-400`    | Text Muted                     |
+| `text-sky-400`     | Links, Call-to-Action, Spinner |
+| `text-emerald-500` | Success states, tags           |
+| `text-amber-500`   | Warnings, highlights           |
+| `text-rose-500`    | Errors, delete buttons         |
+| `text-violet-500`  | Highlights, special elements   |
+
 # Getting started
 
 ```
