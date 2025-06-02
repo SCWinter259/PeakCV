@@ -44,7 +44,7 @@ const Before = () => {
   return (
     <div className="flex flex-col h-screen w-1/2 border-1 border-slate-700">
       <div className="flex w-full h-12 bg-neutral-900 rounded-t"></div>
-      <div className='flex w-full h-full p-4'>
+      <div className='flex w-full flex-1 p-4 overflow-auto'>
         <div className="flex items-center h-full w-full bg-neutral-900">
           {!loading && !file && (
             <div className="flex flex-col items-center justify-center w-full h-full text-center">
