@@ -1,0 +1,79 @@
+
+
+THANH NGUYEN
+Waterloo, ON, Canada
+
+(519) 577-9868
+#
+ngthanh2248@gmail.com
+ï
+linkedin.com/in/ngthanh
+
+Portfolio
+EDUCATION
+University of WaterlooSeptember 2020 – May 2025
+Bachelor of Computer Science, Honours – GPA: 87.5%Waterloo, ON
+EXPERIENCE
+ZipAugust 2025 – Present
+Software Engineer — React, Django, TypeScript, PythonToronto, ON
+theScoreSeptember – December 2024
+Software Developer Co-op — Elixir, PostgresSQL, React, TypeScriptToronto, ON
+•
+Created a migration strategy to transition email record management from the Identity service to the Notification service,
+ensuring uninterrupted service and preventing any data loss or duplication
+•
+Led the migration process, transferring240 millionrecords using Kafka and shifting email handling responsibilities to
+the Notification service via gRPC for seamless integration
+•
+Automated database seeding in the deployment process, reducing manual setup time by75%and boosting developer
+productivity across3teams
+•
+Developed a feature to track client usage for registration and login, enabling accurate record-keeping and data analysis
+SingleStoreMay – August 2024
+Software Engineer Intern — Golang, PostgresSQL, React, TypeScript, GraphQL, C++San Francisco, CA
+•
+Developed a feature for annotating Jupyter Notebooks with API endpoints to auto-generate web servers
+•
+Led the project lifecycle from design through implementation and testing
+•
+Collaborated with UI/UX designers, Product Managers, and engineers to ensure successful implementation
+•
+Co-developed auto-embedding for the SingleStore engine, enabling automatic vector embeddings and semantic
+searches from user-specified models and columns
+SingleStoreMay – July 2023
+Software Engineer Intern — Golang, PostgreSQL, React, TypeScript, GraphQLSeattle, WA
+•
+Implemented a feature allowing customers to retry failed jobs, resulting in a80%efficiency improvement
+•
+Collaborated in a team of 3 to develop a Copilot for SQL by fine-tuning a generative AI model, aimed at enhancing
+developer productivity through text generation features, winning a$3,000company prize
+•
+Built a new quota system for credit and storage management to enhance performance and streamline debugging
+OMERSSeptember – December 2022
+Full-stack Developer Co-op — Next.js, Redux, TypeScriptToronto, ON
+•
+Optimized frontend performance by10%through centralizing side effects using Redux-Saga
+•
+Increased test coverage by6%by writing comprehensive unit, integration, and end-to-end tests usingJest, resulting in a
+more robust and reliable application
+•
+Developed a messaging application, enabling employees to connect
+NokiaJanuary – April 2022
+Web Developer Co-op — React, Redux, JavaScriptOttawa, ON
+•
+Migrated20+React components to a newer version, utilizing comprehensive testing and debugging strategies to ensure
+seamless functionality and improved performance
+•
+Implemented an intuitive graphical system to easily visualize network connections and latency between IP addresses
+•
+Enhanced user experience by creating a user-friendly form for creating Segment Routing paths, merging different forms
+into one recursive form
+PROJECTS
+Chess Pro|TypeScript|ÆAugust 2021 – Present
+•
+Built a Chrome chess bot extension using TypeScript, achieving a rating of4/5and accumulating over20,000daily users
+TECHNICALSKILLS
+Languages:TypeScript, JavaScript, Golang, Java, SQL, C/C++, GraphQL
+Frameworks & Libraries:Node.js, React, Redux, Next.js
+Databases:PostgreSQL, MongoDB, Redis
+Tools & Services:AWS (EC2, S3, Elasticache, Route 53), Jira, Kubernetes, Docker
