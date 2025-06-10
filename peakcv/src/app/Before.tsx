@@ -1,9 +1,10 @@
 'use client';
 
 import Spinner from '@/components/Spinner';
-import { ChangeEvent, useEffect, useRef, useState } from 'react';
+import { ChangeEvent, useRef, useState } from 'react';
 import PDFViewer from '@/components/PDFViewer';
 import pdfToText from 'react-pdftotext';
+import { createResumeParsePromt, getGeminiResponse } from '@/utils/gemini';
 
 const Before = () => {
   const [loading, setLoading] = useState<boolean>(false);
@@ -32,11 +33,34 @@ const Before = () => {
     setFile(selectedFile);
 
     // read the PDF file to text
+    let pdfText = '';
     try {
-      const pdfText = await pdfToText(selectedFile);
-      console.log(pdfText);
+      pdfText = await pdfToText(selectedFile);
     } catch (error) {
       console.error(error);
+      return;
+    }
+
+    // make a call to Gemini API
+    const promt = createResumeParsePromt(pdfText);
+    
+    try {
+      const res = await getGeminiResponse(promt);
+
+      // in case res somehow comes back undefined
+      if (!res) {
+        setMessage('Failed to parse resume. Please try again.');
+        setLoading(false);
+        return;
+      }
+
+      const formattedResume = JSON.parse(res);
+      console.log(formattedResume);
+    } catch (error) {
+      console.log(error);
+      setMessage('Failed to parse resume. Please try again.');
+      setLoading(false);
+      return;
     }
 
     // clear out states at the end
