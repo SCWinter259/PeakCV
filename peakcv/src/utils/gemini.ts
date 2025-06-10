@@ -56,13 +56,15 @@ const schema = JSON.stringify({
 
 export const createResumeParsePromt = (resumeText: string): string => {
   return `
-You are a helpful assistant that extracts structured information from resume text and returns a clean JSON object. The texts are in English, but some sentences may be missing whitespaces (e.g., "UniversityofCalifornia" instead of "University of California"), or having excessive spaces (e.g., "transferring   240 million" instead of "transferring 240 million"). You should handle such cases gracefully. Remember to return the result in plain text (i.e., no \`\`\`json\`\`\` formatter). Below is the JSON format:
+You are a helpful assistant that extracts structured information from resume text and returns a clean JSON object. The texts are in English, but some sentences may be missing whitespaces (e.g., "UniversityofCalifornia" instead of "University of California"), or having excessive spaces (e.g., "transferring   240 million" instead of "transferring 240 million"). You should handle such cases gracefully. Below is the JSON format:
 
 ${schema}
 
 Below is the resume content:
 
 ${resumeText}
+
+Please parse the resume text and extract the structured information in JSON format given above. Only the parsed comment should be returned. Do not repeat the given schema in your response.
 `;
 };
 
