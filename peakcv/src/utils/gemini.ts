@@ -64,7 +64,7 @@ Below is the resume content:
 
 ${resumeText}
 
-Please parse the resume text and extract the structured information in JSON format given above. Only the parsed comment should be returned.
+Please parse the resume text and extract the structured information in JSON format given above. Only the parsed comment should be returned. Do not repeat the given schema in your response.
 `;
 };
 
