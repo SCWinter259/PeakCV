@@ -43,9 +43,10 @@ const Before = () => {
 
     // make a call to Gemini API
     const promt = createResumeParsePromt(pdfText);
-    
+    console.log(promt);
+
     try {
-      const res = await getGeminiResponse(promt);
+      let res = await getGeminiResponse(promt);
 
       // in case res somehow comes back undefined
       if (!res) {
@@ -53,6 +54,14 @@ const Before = () => {
         setLoading(false);
         return;
       }
+
+      // trim the response text
+      res = res
+        .replace(/^```json\s*/i, '') // remove starting ```json
+        .replace(/```$/, '') // remove ending ```
+        .trim();
+
+      console.log(res);
 
       const formattedResume = JSON.parse(res);
       console.log(formattedResume);
