@@ -17,10 +17,6 @@
     "prettier": "^3.5.3"
   },
   "lint-staged": {
-    "peakcv/**/*.{ts,tsx,js,jsx,json}": [
-      "eslint --config peakcv/eslint.config.mjs --fix",
-      "prettier --write"
-    ],
     "server/**/*.{ts,tsx,js,jsx,json}": [
       "eslint --config server/eslint.config.mjs --fix",
       "prettier --write"
