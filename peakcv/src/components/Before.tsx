@@ -9,6 +9,7 @@ import { createResumeParsePromt, getGeminiResponse } from '@/utils/gemini';
 const Before = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [message, setMessage] = useState<string>('');
+  const [selectedMode, setSelectedMode] = useState<'PDF' | 'JSON'>('PDF'); // default mode is PDF
 
   const [file, setFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -55,7 +56,7 @@ const Before = () => {
         return;
       }
 
-      // trim the response text
+      // trim the response text (this formatting part is to be moved to the JSON viewer component)
       res = res
         .replace(/^```json\s*/i, '') // remove starting ```json
         .replace(/```$/, '') // remove ending ```
@@ -79,7 +80,10 @@ const Before = () => {
 
   return (
     <div className="flex flex-col h-screen w-1/2 border-1 border-slate-700">
-      <div className="flex w-full h-12 bg-neutral-900 rounded-t"></div>
+      <div className="flex w-full h-12 bg-neutral-900 rounded-t justify-center items-center">
+        <button className="my-1 p-1 bg-gray-800 rounded hover:bg-gray-700">Button 1</button>
+        <button className="my-1 p-1 bg-gray-800 rounded hover:bg-gray-700">Button 2</button>
+      </div>
       <div className="flex w-full flex-1 p-4 overflow-auto">
         <div className="flex items-center h-full w-full bg-neutral-900">
           {!loading && !file && (
