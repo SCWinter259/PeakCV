@@ -1,5 +1,5 @@
 'use client';
-import Before from "./Before"
+import Before from "../components/Before"
 
 export default function Home() {
   return (
