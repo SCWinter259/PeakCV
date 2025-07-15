@@ -8,6 +8,7 @@ import { createResumeParsePromt, getGeminiResponse } from '@/utils/gemini';
 import { useSelector, useDispatch } from 'react-redux';
 import { AppDispatch, RootState } from '@/lib/store';
 import { setResumeJson } from '@/lib/features/beforeSlice';
+import JSONViewer from './JSONViewer';
 
 const Before = () => {
   const [loading, setLoading] = useState<boolean>(false);
@@ -64,18 +65,6 @@ const Before = () => {
 
       // save the response to the Redux store
       dispatch(setResumeJson(res));
-
-      // trim the response text (this formatting part is to be moved to the JSON viewer component)
-      res = res
-        .replace(/^```json\s*/i, '') // remove starting ```json
-        .replace(/```$/, '') // remove ending ```
-        .trim();
-
-      console.log(res);
-
-      const formattedResume = JSON.parse(res);
-      console.log(formattedResume);
-      // up to here. we let the user trim themselves?
     } catch (error) {
       console.log(error);
       setSpinnerMessage('');
@@ -94,7 +83,7 @@ const Before = () => {
         <button
           onClick={() => setSelectedMode('PDF')}
           disabled={selectedMode === 'PDF'}
-          className={`my-1 p-2 rounded ${
+          className={`w-24 my-1 p-1 rounded ${
             selectedMode === 'PDF'
               ? 'bg-gray-600 cursor-not-allowed'
               : 'bg-gray-800 hover:bg-gray-700'
@@ -104,8 +93,8 @@ const Before = () => {
         </button>
         <button
           onClick={() => setSelectedMode('JSON')}
-          disabled={selectedMode === 'JSON'}
-          className={`my-1 p-2 rounded ${
+          disabled={selectedMode === 'JSON' || resumeJson === ''}
+          className={`w-24 my-1 p-1 rounded ${
             selectedMode === 'JSON'
               ? 'bg-gray-600 cursor-not-allowed'
               : 'bg-gray-800 hover:bg-gray-700'
@@ -116,7 +105,8 @@ const Before = () => {
       </div>
       <div className="flex w-full flex-1 p-4 overflow-auto">
         <div className="flex items-center h-full w-full bg-neutral-900">
-          {!loading && !file && (
+          {/* This part is for PDF View */}
+          {selectedMode === 'PDF' && !loading && !file && (
             <div className="flex flex-col items-center justify-center w-full h-full text-center">
               <input
                 type="file"
@@ -133,8 +123,10 @@ const Before = () => {
               </button>
             </div>
           )}
-          {loading && <Spinner message={spinnerMessage} />}
-          {!loading && file && <PDFViewer file={file} />}
+          {selectedMode === 'PDF' && loading && <Spinner message={spinnerMessage} />}
+          {selectedMode === 'PDF' && !loading && file && <PDFViewer file={file} />}
+          {/* This part is for JSON View */}
+          {selectedMode === 'JSON' && <JSONViewer/>}
         </div>
       </div>
     </div>
