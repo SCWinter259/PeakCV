@@ -9,11 +9,12 @@ import { useSelector, useDispatch } from 'react-redux';
 import { AppDispatch, RootState } from '@/lib/store';
 import { setResumeJson } from '@/lib/features/beforeSlice';
 import JSONViewer from './JSONViewer';
+import JobDescriptionEditor from './JobDescriptionEditor';
 
 const Before = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [spinnerMessage, setSpinnerMessage] = useState<string>('');
-  const [selectedMode, setSelectedMode] = useState<'PDF' | 'JSON'>('PDF'); // default mode is PDF
+  const [selectedMode, setSelectedMode] = useState<'PDF' | 'JSON' | 'JD'>('PDF'); // default mode is PDF
 
   const [file, setFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -79,29 +80,55 @@ const Before = () => {
 
   return (
     <div className="flex flex-col h-screen w-1/2 border-1 border-slate-700">
-      <div className="flex w-full h-12 bg-neutral-900 rounded-t justify-center items-center">
-        <button
-          onClick={() => setSelectedMode('PDF')}
-          disabled={selectedMode === 'PDF'}
-          className={`w-24 my-1 p-1 rounded ${
-            selectedMode === 'PDF'
-              ? 'bg-gray-600 cursor-not-allowed'
-              : 'bg-gray-800 hover:bg-gray-700'
-          }`}
-        >
-          PDF
-        </button>
-        <button
-          onClick={() => setSelectedMode('JSON')}
-          disabled={selectedMode === 'JSON' || resumeJson === ''}
-          className={`w-24 my-1 p-1 rounded ${
-            selectedMode === 'JSON'
-              ? 'bg-gray-600 cursor-not-allowed'
-              : 'bg-gray-800 hover:bg-gray-700'
-          }`}
-        >
-          JSON
-        </button>
+      <div className="flex w-full h-12 bg-neutral-900 rounded-t items-center justify-between">
+        <div className='flex ml-1'>
+          <button
+            onClick={() => setSelectedMode('PDF')}
+            disabled={selectedMode === 'PDF'}
+            className={`w-24 my-1 p-1 rounded ${
+              selectedMode === 'PDF'
+                ? 'bg-gray-800 text-gray-400 cursor-not-allowed'
+                : 'bg-gray-600 hover:bg-gray-700'
+            }`}
+          >
+            PDF
+          </button>
+          <button
+            onClick={() => setSelectedMode('JSON')}
+            disabled={selectedMode === 'JSON' || resumeJson === ''}
+            className={`w-24 my-1 p-1 rounded ${
+              selectedMode === 'JSON' || resumeJson === ''
+                ? 'bg-gray-800 text-gray-400 cursor-not-allowed'
+                : 'bg-gray-600 hover:bg-gray-700'
+            }`}
+          >
+            JSON
+          </button>
+          <button
+            onClick={() => setSelectedMode('JD')}
+            disabled={selectedMode === 'JD'}
+            className={`w-42 my-1 p-1 rounded ${
+              selectedMode === 'JD'
+                ? 'bg-gray-800 text-gray-400 cursor-not-allowed'
+                : 'bg-gray-600 hover:bg-gray-700'
+            }`}
+          >
+            Job Description
+          </button>
+        </div>
+        <div className='flex ml-auto mr-1'>
+          <button
+            onClick={() => {}}
+            disabled={resumeJson === ''}
+            className={`w-42 my-1 p-1 rounded ${
+              resumeJson === ''
+                ? 'bg-gray-800 text-gray-400 cursor-not-allowed'
+                : 'bg-green-500 hover:bg-green-600'
+            }`}
+          >
+            Start
+          </button>
+        </div>
       </div>
       <div className="flex w-full flex-1 p-4 overflow-auto">
         <div className="flex items-center h-full w-full bg-neutral-900">
@@ -117,7 +144,7 @@ const Before = () => {
               />
               <button
                 onClick={handleClick}
-                className="mt-4 px-4 py-2 bg-gray-800 rounded hover:bg-gray-700"
+                className="mt-4 px-4 py-2 bg-gray-600 rounded hover:bg-gray-700"
               >
                 Upload Resume
               </button>
@@ -127,6 +154,8 @@ const Before = () => {
           {selectedMode === 'PDF' && !loading && file && <PDFViewer file={file} />}
           {/* This part is for JSON View */}
           {selectedMode === 'JSON' && <JSONViewer/>}
+          {/* This part is for the job description editor */}
+          {selectedMode === 'JD' && <JobDescriptionEditor/>}
         </div>
       </div>
     </div>

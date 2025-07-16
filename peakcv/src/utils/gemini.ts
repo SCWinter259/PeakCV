@@ -1,6 +1,6 @@
 import { GoogleGenAI } from '@google/genai';
 
-const schema = JSON.stringify({
+const resumeSchema = JSON.stringify({
   education: {
     type: 'array',
     items: {
@@ -54,17 +54,49 @@ const schema = JSON.stringify({
   },
 });
 
+const resumeChangeSchema = JSON.stringify({
+  changes: {
+    type: 'array',
+    items: {
+      type: 'object',
+      properties: {
+        old: { type: 'string' },
+        new: { type: 'string' },
+        reason: { type: 'string', nullable: true },
+      },
+    },
+  },
+});
+
 export const createResumeParsePromt = (resumeText: string): string => {
   return `
 You are a helpful assistant that extracts structured information from resume text and returns a clean JSON object. The texts are in English, but some sentences may be missing whitespaces (e.g., "UniversityofCalifornia" instead of "University of California"), or having excessive spaces (e.g., "transferring   240 million" instead of "transferring 240 million"). You should handle such cases gracefully. Below is the JSON format:
 
-${schema}
+${resumeSchema}
 
 Below is the resume content:
 
 ${resumeText}
 
 Please parse the resume text and extract the structured information in JSON format given above. Only the parsed comment should be returned. Do not repeat the given schema in your response.
+`;
+};
+
+export const createImproveResumePrompt = (resumeJson: string, jobDescription: string): string => {
+  return `
+You are a helpful assistant that improves resumes based on job descriptions. Below is the resume content in JSON format:
+
+${resumeJson}
+
+and below is the job description:
+
+${jobDescription}
+
+If no job description is provided, just simply improve the resume without any specific job context. The expected result is a JSON object with the following schema:
+
+${resumeChangeSchema}
+
+in which "old" is the piece of text that needs to be improved in the original resume content, and "new" is the improved text. The "reason" field is optional and can be used to explain why the change was made. If no reason is provided, it should be null. Do not include any other text in the response.
 `;
 };
 
