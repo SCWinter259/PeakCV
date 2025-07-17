@@ -1,15 +1,19 @@
 'use client';
 
 import { Editor } from '@monaco-editor/react';
-import { useSelector, useDispatch } from 'react-redux';
-import { RootState, AppDispatch } from '@/lib/store';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '@/lib/store';
 import { useState } from 'react';
-import { setResumeJson } from '@/lib/features/beforeSlice';
+import { ActionCreatorWithPayload } from '@reduxjs/toolkit';
 
-const JSONViewer = () => {
-  const resumeJson = useSelector((state: RootState) => state.before.resumeJson);
+interface IJSONViewer {
+  textJsonContent: string;
+  setTextJsonContent: ActionCreatorWithPayload<any, string>;
+}
+
+const JSONViewer = ({ textJsonContent, setTextJsonContent }: IJSONViewer) => {
   const dispatch = useDispatch<AppDispatch>();
-  const [content, setContent] = useState<string>(resumeJson);
+  const [content, setContent] = useState<string>(textJsonContent);
 
   // validate that the content is a valid JSON. If validation success, resumeJson gets updated
   const handleValidate = (content: string) => {
@@ -17,7 +21,7 @@ const JSONViewer = () => {
       const parsed = JSON.parse(content);
       const stringJson = JSON.stringify(parsed, null, 2);
       setContent(stringJson);
-      dispatch(setResumeJson(stringJson)); // save formatted JSON to Redux store
+      dispatch(setTextJsonContent(stringJson)); // save formatted JSON to Redux store
     } catch (error) {
       alert('Invalid JSON format');
     }

@@ -26,7 +26,7 @@ const PDFViewer = ({ file }: IPDFViewer) => {
 
   return (
     <div className="w-full h-full flex flex-col items-center justify-center p-4">
-      <div className="w-full h-full flex justify-center items-center overflow-auto border border-slate-700">
+      <div className="w-full h-full flex justify-center overflow-auto border border-slate-700">
         <Document file={file} onLoadSuccess={onDocumentLoadSuccess}>
           <Page pageNumber={pageNumber} scale={scale} />
         </Document>
