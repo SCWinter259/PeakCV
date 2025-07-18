@@ -68,7 +68,7 @@ const resumeChangeSchema = JSON.stringify({
   },
 });
 
-export const createResumeParsePromt = (resumeText: string): string => {
+export const createResumeParsePrompt = (resumeText: string): string => {
   return `
 You are a helpful assistant that extracts structured information from resume text and returns a clean JSON object. The texts are in English, but some sentences may be missing whitespaces (e.g., "UniversityofCalifornia" instead of "University of California"), or having excessive spaces (e.g., "transferring   240 million" instead of "transferring 240 million"). You should handle such cases gracefully. Below is the JSON format:
 
@@ -108,12 +108,12 @@ const getGeminiAI = () => {
   return new GoogleGenAI({ apiKey });
 };
 
-export const getGeminiResponse = async (promt: string) => {
+export const getGeminiResponse = async (prompt: string) => {
   try {
     const ai = getGeminiAI();
     const res = await ai.models.generateContent({
       model: 'gemini-2.0-flash',
-      contents: promt,
+      contents: prompt,
     });
     return res.text;
   } catch (error) {

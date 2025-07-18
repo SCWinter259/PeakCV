@@ -4,7 +4,7 @@ import Spinner from '@/components/Spinner';
 import { ChangeEvent, useRef, useState } from 'react';
 import PDFViewer from '@/components/PDFViewer';
 import pdfToText from 'react-pdftotext';
-import { createResumeParsePromt, getGeminiResponse } from '@/utils/gemini';
+import { createResumeParsePrompt, getGeminiResponse } from '@/utils/gemini';
 import { useSelector, useDispatch } from 'react-redux';
 import { AppDispatch, RootState } from '@/lib/store';
 import { setResumeJson } from '@/lib/features/beforeSlice';
@@ -52,10 +52,10 @@ const Before = () => {
     }
 
     // make a call to Gemini API
-    const promt = createResumeParsePromt(pdfText);
+    const prompt = createResumeParsePrompt(pdfText);
 
     try {
-      let res = await getGeminiResponse(promt);
+      const res = await getGeminiResponse(prompt);
 
       // in case res somehow comes back undefined
       if (!res) {
@@ -81,7 +81,7 @@ const Before = () => {
   return (
     <div className="flex flex-col h-screen w-1/2 border-1 border-slate-700">
       <div className="flex w-full h-12 bg-neutral-900 rounded-t items-center justify-between">
-        <div className='flex ml-1'>
+        <div className="flex ml-1">
           <button
             onClick={() => setSelectedMode('PDF')}
             disabled={selectedMode === 'PDF'}
@@ -116,7 +116,7 @@ const Before = () => {
             Job Description
           </button>
         </div>
-        <div className='flex ml-auto mr-1'>
+        <div className="flex ml-auto mr-1">
           <button
             onClick={() => {}}
             disabled={resumeJson === ''}
@@ -153,9 +153,9 @@ const Before = () => {
           {selectedMode === 'PDF' && loading && <Spinner message={spinnerMessage} />}
           {selectedMode === 'PDF' && !loading && file && <PDFViewer file={file} />}
           {/* This part is for JSON View */}
-          {selectedMode === 'JSON' && <JSONViewer/>}
+          {selectedMode === 'JSON' && <JSONViewer />}
           {/* This part is for the job description editor */}
-          {selectedMode === 'JD' && <JobDescriptionEditor/>}
+          {selectedMode === 'JD' && <JobDescriptionEditor />}
         </div>
       </div>
     </div>
