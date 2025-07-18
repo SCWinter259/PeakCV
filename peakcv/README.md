@@ -29,7 +29,11 @@ How generated resume should be:
 |--------------------|--------------------------------|
 | `bg-black`         | Background                     |
 | `bg-neutral-900`   | Surface                        |
-| `bg-gray-800`      | Card/Panel                     |
+| `bg-gray-800`      | Card/Panel/button disabled     |
+| `bg-gray-600`      | Button clickable               |
+| `bg-gray-700`      | Button hover                   |
+| `bg-green-500`     | Confirm button clickable       |
+| `bg-green-600`     | Confirm button hover           |
 | `border-slate-700` | Border                         |
 | `text-gray-100`    | Text Primary                   |
 | `text-gray-400`    | Text Muted                     |
