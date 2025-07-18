@@ -19,6 +19,7 @@ const JSONViewer = () => {
       setContent(stringJson);
       dispatch(setResumeJson(stringJson)); // save formatted JSON to Redux store
     } catch (error) {
+      console.error(error);
       alert('Invalid JSON format');
     }
   };

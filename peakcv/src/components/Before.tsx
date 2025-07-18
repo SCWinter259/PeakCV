@@ -59,18 +59,13 @@ const Before = () => {
 
       // in case res somehow comes back undefined
       if (!res) {
-        setSpinnerMessage('');
-        setLoading(false);
-        return;
+        throw new Error('Gemini API response is undefined');
       }
 
       // save the response to the Redux store
       dispatch(setResumeJson(res));
     } catch (error) {
-      console.log(error);
-      setSpinnerMessage('');
-      setLoading(false);
-      return;
+      console.error(error);
     }
 
     // clear out states at the end
