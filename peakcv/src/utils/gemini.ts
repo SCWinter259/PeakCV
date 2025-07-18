@@ -100,10 +100,17 @@ in which "old" is the piece of text that needs to be improved in the original re
 `;
 };
 
-const ai = new GoogleGenAI({ apiKey: process.env.NEXT_PUBLIC_GEMINI_API_KEY });
+const getGeminiAI = () => {
+  const apiKey = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
+  if (!apiKey) {
+    throw new Error('NEXT_PUBLIC_GEMINI_API_KEY is not set in environment variables');
+  }
+  return new GoogleGenAI({ apiKey });
+};
 
 export const getGeminiResponse = async (promt: string) => {
   try {
+    const ai = getGeminiAI();
     const res = await ai.models.generateContent({
       model: 'gemini-2.0-flash',
       contents: promt,
