@@ -4,7 +4,7 @@ import Spinner from '@/components/Spinner';
 import { ChangeEvent, useRef, useState } from 'react';
 import PDFViewer from '@/components/PDFViewer';
 import pdfToText from 'react-pdftotext';
-import { createResumeParsePromt, getGeminiResponse } from '@/utils/gemini';
+import { createImproveResumePrompt, createResumeParsePromt, getGeminiResponse } from '@/utils/gemini';
 import { useSelector, useDispatch } from 'react-redux';
 import { AppDispatch, RootState } from '@/lib/store';
 import { setResumeJson } from '@/lib/features/beforeSlice';
@@ -30,8 +30,24 @@ const Before = () => {
   Store the response in the Redux store (improvementsJson text).
   The appearance of the response in Redux will start the After component.
   */
-  const handleStartClick = () => {
+  const handleStartClick = async () => {
     const jobDescription = jobDescriptionRef.current?.value || '';
+    const prompt = createImproveResumePrompt(resumeJson, jobDescription);
+
+    try {
+      let res = await getGeminiResponse(prompt);
+
+      // in case res somehow comes back undefined
+      if (!res) {
+        return;
+      }
+
+      // trim ```json``` from the response
+      res = res.replace(/^`*[a-z]*|`*$/g, '');
+    } catch (error) {
+      console.log(error);
+      return;
+    }
   }
 
   const handleUploadResumeClick = () => {
@@ -74,6 +90,9 @@ const Before = () => {
         setLoading(false);
         return;
       }
+
+      // trim ```json``` from the response
+      res = res.replace(/^`*[a-z]*|`*$/g, '')
 
       // save the response to the Redux store
       dispatch(setResumeJson(res));
