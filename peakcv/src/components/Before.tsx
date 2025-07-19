@@ -4,7 +4,7 @@ import Spinner from '@/components/Spinner';
 import { ChangeEvent, useRef, useState } from 'react';
 import PDFViewer from '@/components/PDFViewer';
 import pdfToText from 'react-pdftotext';
-import { createResumeParsePrompt, getGeminiResponse } from '@/utils/gemini';
+import { createImproveResumePrompt, createResumeParsePrompt, getGeminiResponse } from '@/utils/gemini';
 import { useSelector, useDispatch } from 'react-redux';
 import { AppDispatch, RootState } from '@/lib/store';
 import { setResumeJson } from '@/lib/features/beforeSlice';
@@ -18,12 +18,39 @@ const Before = () => {
 
   const [file, setFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const jobDescriptionRef = useRef<HTMLTextAreaElement>(null);
 
   // placeholder, this const will store the parsed resume JSON response from the Gemini API
   const resumeJson = useSelector((state: RootState) => state.before.resumeJson);
   const dispatch = useDispatch<AppDispatch>();
 
-  const handleClick = () => {
+  /* 
+  Take resumeJson text from Redux store and the job description from the
+  JobDescriptionEditor component, and make API call to the AI.
+  Store the response in the Redux store (improvementsJson text).
+  The appearance of the response in Redux will start the After component.
+  */
+  const handleStartClick = async () => {
+    const jobDescription = jobDescriptionRef.current?.value || '';
+    const prompt = createImproveResumePrompt(resumeJson, jobDescription);
+
+    try {
+      let res = await getGeminiResponse(prompt);
+
+      // in case res somehow comes back undefined
+      if (!res) {
+        return;
+      }
+
+      // trim ```json``` from the response
+      res = res.replace(/^`*[a-z]*|`*$/g, '');
+    } catch (error) {
+      console.log(error);
+      return;
+    }
+  }
+
+  const handleUploadResumeClick = () => {
     fileInputRef.current?.click(); // fire up the input
   };
 
@@ -55,12 +82,15 @@ const Before = () => {
     const prompt = createResumeParsePrompt(pdfText);
 
     try {
-      const res = await getGeminiResponse(prompt);
+      let res = await getGeminiResponse(prompt);
 
       // in case res somehow comes back undefined
       if (!res) {
         throw new Error('Gemini API response is undefined');
       }
+
+      // trim ```json``` from the response
+      res = res.replace(/^`*[a-z]*|`*$/g, '')
 
       // save the response to the Redux store
       dispatch(setResumeJson(res));
@@ -75,6 +105,7 @@ const Before = () => {
 
   return (
     <div className="flex flex-col h-screen w-1/2 border-1 border-slate-700">
+      {/* This div below is the top bar section, with all buttons */}
       <div className="flex w-full h-12 bg-neutral-900 rounded-t items-center justify-between">
         <div className="flex ml-1">
           <button
@@ -113,7 +144,7 @@ const Before = () => {
         </div>
         <div className="flex ml-auto mr-1">
           <button
-            onClick={() => {}}
+            onClick={handleStartClick}
             disabled={resumeJson === ''}
             className={`w-42 my-1 p-1 rounded ${
               resumeJson === ''
@@ -138,7 +169,7 @@ const Before = () => {
                 onChange={handleUpload}
               />
               <button
-                onClick={handleClick}
+                onClick={handleUploadResumeClick}
                 className="mt-4 px-4 py-2 bg-gray-600 rounded hover:bg-gray-700"
               >
                 Upload Resume
@@ -148,9 +179,9 @@ const Before = () => {
           {selectedMode === 'PDF' && loading && <Spinner message={spinnerMessage} />}
           {selectedMode === 'PDF' && !loading && file && <PDFViewer file={file} />}
           {/* This part is for JSON View */}
-          {selectedMode === 'JSON' && <JSONViewer />}
+          {selectedMode === 'JSON' && <JSONViewer textJsonContent={resumeJson} setTextJsonContent={setResumeJson}/>}
           {/* This part is for the job description editor */}
-          {selectedMode === 'JD' && <JobDescriptionEditor />}
+          {selectedMode === 'JD' && <JobDescriptionEditor jobDescriptionRef={jobDescriptionRef}/>}
         </div>
       </div>
     </div>
