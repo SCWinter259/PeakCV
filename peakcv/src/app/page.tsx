@@ -1,15 +1,15 @@
 'use client';
+import After from "@/components/After";
 import Before from "../components/Before"
+import { useState } from "react";
 
 export default function Home() {
+  const [loadingAfter, setLoadingAfter] = useState<boolean>(false);
+
   return (
     <div className="flex h-screen w-screen">
-      <Before />
-      <div className="flex w-1/2 border-1 border-slate-700 p-4">
-        <div className="h-full w-full bg-neutral-900">
-
-        </div>
-      </div>
+      <Before setLoadingAfter={setLoadingAfter}/>
+      <After loadingAfter={loadingAfter} />
     </div>
   );
 }

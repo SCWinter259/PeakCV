@@ -4,19 +4,22 @@ import { Ref, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '@/lib/store';
 import { setJobDescription } from '@/lib/features/beforeSlice';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/lib/store';
 
 interface IJobDescriptionEditor {
   jobDescriptionRef: Ref<HTMLTextAreaElement>;
 }
 
 const JobDescriptionEditor = ({ jobDescriptionRef }: IJobDescriptionEditor) => {
-  const [content, setContent] = useState<string>('');
+  const jobDescription = useSelector((state: RootState) => state.before.jobDescription);
+  const [content, setContent] = useState<string>(jobDescription);
   const dispatch = useDispatch<AppDispatch>();
 
   const handleSave = (content: string) => {
     dispatch(setJobDescription(content)); // save job description to Redux store
     alert('Job description saved successfully!');
-  }
+  };
 
   return (
     <div className="w-full h-full flex flex-col items-center justify-center p-4">

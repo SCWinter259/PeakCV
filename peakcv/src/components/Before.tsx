@@ -10,8 +10,13 @@ import { AppDispatch, RootState } from '@/lib/store';
 import { setResumeJson } from '@/lib/features/beforeSlice';
 import JSONViewer from './JSONViewer';
 import JobDescriptionEditor from './JobDescriptionEditor';
+import { setImprovementsJson } from '@/lib/features/afterSlice';
 
-const Before = () => {
+interface IBefore {
+  setLoadingAfter: (loading: boolean) => void;
+}
+
+const Before = ({setLoadingAfter}: IBefore) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [spinnerMessage, setSpinnerMessage] = useState<string>('');
   const [selectedMode, setSelectedMode] = useState<'PDF' | 'JSON' | 'JD'>('PDF'); // default mode is PDF
@@ -31,6 +36,7 @@ const Before = () => {
   The appearance of the response in Redux will start the After component.
   */
   const handleStartClick = async () => {
+    setLoadingAfter(true); // set loading state for After component
     const jobDescription = jobDescriptionRef.current?.value || '';
     const prompt = createImproveResumePrompt(resumeJson, jobDescription);
 
@@ -39,11 +45,15 @@ const Before = () => {
 
       // in case res somehow comes back undefined
       if (!res) {
+        setLoadingAfter(false);
         return;
       }
 
       // trim ```json``` from the response
       res = res.replace(/^`*[a-z]*|`*$/g, '');
+      // save the response to the Redux store
+      dispatch(setImprovementsJson(res));
+      setLoadingAfter(false); // reset loading state for After component
     } catch (error) {
       console.log(error);
       return;
