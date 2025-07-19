@@ -25,23 +25,23 @@ How generated resume should be:
 
 # Color pick
 
-| Tailwind           | Use case                       |
-|--------------------|--------------------------------|
-| `bg-black`         | Background                     |
-| `bg-neutral-900`   | Surface                        |
-| `bg-gray-800`      | Card/Panel/button disabled     |
-| `bg-gray-600`      | Button clickable               |
-| `bg-gray-700`      | Button hover                   |
-| `bg-green-500`     | Confirm button clickable       |
-| `bg-green-600`     | Confirm button hover           |
-| `border-slate-700` | Border                         |
-| `text-gray-100`    | Text Primary                   |
-| `text-gray-400`    | Text Muted                     |
-| `text-sky-400`     | Links, Call-to-Action, Spinner |
-| `text-emerald-500` | Success states, tags           |
-| `text-amber-500`   | Warnings, highlights           |
-| `text-rose-500`    | Errors, delete buttons         |
-| `text-violet-500`  | Highlights, special elements   |
+| Dark Mode          | Light Mode         | Use Case                       |
+| ------------------ | ------------------ | ------------------------------ |
+| `bg-black`         | `bg-white`         | Background                     |
+| `bg-neutral-900`   | `bg-neutral-100`   | Surface                        |
+| `bg-gray-800`      | `bg-gray-200`      | Card/Panel/button disabled     |
+| `bg-gray-600`      | `bg-gray-300`      | Button clickable               |
+| `bg-gray-700`      | `bg-gray-400`      | Button hover                   |
+| `bg-green-500`     | `bg-green-500`     | Confirm button clickable       |
+| `bg-green-600`     | `bg-green-600`     | Confirm button hover           |
+| `border-slate-700` | `border-slate-300` | Border                         |
+| `text-gray-100`    | `text-gray-900`    | Text Primary                   |
+| `text-gray-400`    | `text-gray-500`    | Text Muted                     |
+| `text-sky-400`     | `text-sky-400`     | Links, Call-to-Action, Spinner |
+| `text-emerald-500` | `text-emerald-500` | Success states, tags           |
+| `text-amber-500`   | `text-amber-500`   | Warnings, highlights           |
+| `text-rose-500`    | `text-rose-500`    | Errors, delete buttons         |
+| `text-violet-500`  | `text-violet-500`  | Highlights, special elements   |
 
 # Getting started
 
