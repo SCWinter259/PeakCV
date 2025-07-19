@@ -37,7 +37,7 @@ const PDFViewer = ({ file }: IPDFViewer) => {
           <button
             onClick={() => setPageNumber(pageNumber - 1)}
             disabled={pageNumber <= 1}
-            className="px-4 py-2 bg-gray-800 rounded hover:bg-gray-700 disabled:opacity-50"
+            className="px-4 py-2 bg-gray-200 dark:bg-gray-800 rounded hover:bg-gray-400 dark:hover:bg-gray-700 disabled:opacity-50"
           >
             Prev
           </button>
@@ -47,7 +47,7 @@ const PDFViewer = ({ file }: IPDFViewer) => {
           <button
             onClick={() => setPageNumber(pageNumber + 1)}
             disabled={pageNumber >= numPages}
-            className="px-4 py-2 bg-gray-800 rounded hover:bg-gray-700 disabled:opacity-50"
+            className="px-4 py-2 bg-gray-200 dark:bg-gray-800 rounded hover:bg-gray-400 dark:hover:bg-gray-700 disabled:opacity-50"
           >
             Next
           </button>
@@ -55,14 +55,14 @@ const PDFViewer = ({ file }: IPDFViewer) => {
         <div className="flex gap-2">
           <button
             onClick={() => setScale((s) => Math.max(0.5, s - 0.1))}
-            className="bg-slate-700 px-3 py-1 rounded"
+            className="bg-gray-200 dark:bg-slate-700 px-3 py-1 rounded"
           >
             -
           </button>
           <span className="text-sm m-auto">{Math.round(scale * 100)}%</span>
           <button
             onClick={() => setScale((s) => s + 0.1)}
-            className="bg-slate-700 px-3 py-1 rounded"
+            className="bg-gray-200 dark:bg-slate-700 px-3 py-1 rounded"
           >
             +
           </button>

@@ -34,7 +34,7 @@ const JobDescriptionEditor = ({ jobDescriptionRef }: IJobDescriptionEditor) => {
       <div className="w-full h-full flex justify-center items-center overflow-auto border border-slate-700">
         <textarea
           ref={jobDescriptionRef}
-          className="w-full h-full p-4 bg-gray-800 text-white rounded"
+          className="w-full h-full p-4 bg-gray-100 dark:bg-gray-800 text-white rounded"
           value={content}
           onChange={(e) => setContent(e.target.value)}
           placeholder="Paste your job description here..."

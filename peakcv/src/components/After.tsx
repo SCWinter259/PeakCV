@@ -15,9 +15,9 @@ const After = ({ loadingAfter }: IAfter) => {
   return (
     <div className="flex flex-col h-screen w-1/2 border-1 border-slate-700">
       {/* This div below is the top bar section, with all buttons */}
-      <div className="flex w-full h-12 bg-neutral-900 rounded-t items-center justify-between"></div>
+      <div className="flex w-full h-12 bg-neutral-100 dark:bg-neutral-900 rounded-t items-center justify-between"></div>
       <div className="flex w-full flex-1 p-4 overflow-auto">
-        <div className="flex items-center h-full w-full bg-neutral-900">
+        <div className="flex items-center h-full w-full bg-neutral-100 dark:bg-neutral-900">
           {loadingAfter && <Spinner message="Improving Resume" />}
           {improvementsJson && !loadingAfter && (
             <JSONViewer
