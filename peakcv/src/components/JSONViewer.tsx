@@ -23,6 +23,7 @@ const JSONViewer = ({ textJsonContent, setTextJsonContent }: IJSONViewer) => {
       setContent(stringJson);
       dispatch(setTextJsonContent(stringJson)); // save formatted JSON to Redux store
     } catch (error) {
+      console.error(error);
       alert('Invalid JSON format');
     }
   };

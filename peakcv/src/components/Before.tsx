@@ -4,7 +4,7 @@ import Spinner from '@/components/Spinner';
 import { ChangeEvent, useRef, useState } from 'react';
 import PDFViewer from '@/components/PDFViewer';
 import pdfToText from 'react-pdftotext';
-import { createImproveResumePrompt, createResumeParsePromt, getGeminiResponse } from '@/utils/gemini';
+import { createImproveResumePrompt, createResumeParsePrompt, getGeminiResponse } from '@/utils/gemini';
 import { useSelector, useDispatch } from 'react-redux';
 import { AppDispatch, RootState } from '@/lib/store';
 import { setResumeJson } from '@/lib/features/beforeSlice';
@@ -79,16 +79,14 @@ const Before = () => {
     }
 
     // make a call to Gemini API
-    const promt = createResumeParsePromt(pdfText);
+    const prompt = createResumeParsePrompt(pdfText);
 
     try {
-      let res = await getGeminiResponse(promt);
+      let res = await getGeminiResponse(prompt);
 
       // in case res somehow comes back undefined
       if (!res) {
-        setSpinnerMessage('');
-        setLoading(false);
-        return;
+        throw new Error('Gemini API response is undefined');
       }
 
       // trim ```json``` from the response
@@ -97,10 +95,7 @@ const Before = () => {
       // save the response to the Redux store
       dispatch(setResumeJson(res));
     } catch (error) {
-      console.log(error);
-      setSpinnerMessage('');
-      setLoading(false);
-      return;
+      console.error(error);
     }
 
     // clear out states at the end
@@ -112,7 +107,7 @@ const Before = () => {
     <div className="flex flex-col h-screen w-1/2 border-1 border-slate-700">
       {/* This div below is the top bar section, with all buttons */}
       <div className="flex w-full h-12 bg-neutral-900 rounded-t items-center justify-between">
-        <div className='flex ml-1'>
+        <div className="flex ml-1">
           <button
             onClick={() => setSelectedMode('PDF')}
             disabled={selectedMode === 'PDF'}
@@ -147,7 +142,7 @@ const Before = () => {
             Job Description
           </button>
         </div>
-        <div className='flex ml-auto mr-1'>
+        <div className="flex ml-auto mr-1">
           <button
             onClick={handleStartClick}
             disabled={resumeJson === ''}
