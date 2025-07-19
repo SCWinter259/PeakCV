@@ -2,10 +2,12 @@ import { createSlice } from '@reduxjs/toolkit';
 
 interface BeforeSliceState {
   resumeJson: string;
+  jobDescription: string;
 }
 
 const initialState: BeforeSliceState = {
   resumeJson: '',
+  jobDescription: '',
 };
 
 export const beforeSlice = createSlice({
@@ -20,8 +22,11 @@ export const beforeSlice = createSlice({
     clearResumeJson: (state) => {
       state.resumeJson = '';
     },
+    setJobDescription: (state, action) => {
+      state.jobDescription = action.payload;
+    },
   },
 });
 
-export const { setResumeJson, clearResumeJson } = beforeSlice.actions;
+export const { setResumeJson, clearResumeJson, setJobDescription } = beforeSlice.actions;
 export default beforeSlice.reducer;

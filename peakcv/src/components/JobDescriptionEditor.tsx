@@ -1,6 +1,9 @@
 'use client';
 
 import { Ref, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '@/lib/store';
+import { setJobDescription } from '@/lib/features/beforeSlice';
 
 interface IJobDescriptionEditor {
   jobDescriptionRef: Ref<HTMLTextAreaElement>;
@@ -8,9 +11,23 @@ interface IJobDescriptionEditor {
 
 const JobDescriptionEditor = ({ jobDescriptionRef }: IJobDescriptionEditor) => {
   const [content, setContent] = useState<string>('');
+  const dispatch = useDispatch<AppDispatch>();
+
+  const handleSave = (content: string) => {
+    dispatch(setJobDescription(content)); // save job description to Redux store
+    alert('Job description saved successfully!');
+  }
 
   return (
     <div className="w-full h-full flex flex-col items-center justify-center p-4">
+      <div className="my-1 flex flex-col items-center">
+        <button
+          onClick={() => handleSave(content)}
+          className="m-1 p-2 bg-green-500 rounded hover:bg-green-600 text-white"
+        >
+          Save
+        </button>
+      </div>
       <div className="w-full h-full flex justify-center items-center overflow-auto border border-slate-700">
         <textarea
           ref={jobDescriptionRef}
