@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import Spinner from './Spinner';
 import JSONViewer from './JSONViewer';
 import { setImprovementsJson } from '@/lib/features/afterSlice';
+import { useState } from 'react';
 
 interface IAfter {
   loadingAfter: boolean;
@@ -12,6 +13,8 @@ interface IAfter {
 
 const After = ({ loadingAfter }: IAfter) => {
   const improvementsJson = useSelector((state: RootState) => state.after.improvementsJson);
+  const [selectedMode, setSelectedMode] = useState<'JSON' | 'LaTeX'>('JSON');
+
   return (
     <div className="flex flex-col h-screen w-1/2 border-1 border-slate-700">
       {/* This div below is the top bar section, with all buttons */}

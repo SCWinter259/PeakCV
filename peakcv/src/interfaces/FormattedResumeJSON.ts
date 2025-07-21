@@ -1,4 +1,11 @@
-interface Education {
+export interface Intro {
+  name: string;
+  location: string;
+  phone: string;
+  email: string;
+}
+
+export interface Education {
   school: string;
   degree: string;
   startDate: string;
@@ -7,7 +14,7 @@ interface Education {
   gpa: string | null;
 }
 
-interface Experience {
+export interface Experience {
   company: string;
   position: string;
   startDate: string;
@@ -17,7 +24,7 @@ interface Experience {
   achievements: string[];
 }
 
-interface Project {
+export interface Project {
   name: string;
   technologies: string[];
   startDate: string;
@@ -25,7 +32,7 @@ interface Project {
   achievements: string[];
 }
 
-interface Skills {
+export interface Skills {
   languages: string[];
   frameworksAndLibraries: string[];
   tools: string[];
@@ -33,6 +40,7 @@ interface Skills {
 }
 
 export interface FormattedResumeJSON {
+    intro: Intro;
     education: Education[];
     experience: Experience[];
     projects: Project[];
