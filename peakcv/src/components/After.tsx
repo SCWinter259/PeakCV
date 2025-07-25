@@ -13,7 +13,8 @@ interface IAfter {
 
 const After = ({ loadingAfter }: IAfter) => {
   const improvementsJson = useSelector((state: RootState) => state.after.improvementsJson);
-  const [selectedMode, setSelectedMode] = useState<'JSON' | 'LaTeX'>('JSON');
+  const [confirmJsonFormat, setConfirmJsonFormat] = useState<boolean>(false);
+  const [selectedMode, setSelectedMode] = useState<'Response' | 'LaTeX'>('Response');
 
   return (
     <div className="flex flex-col h-screen w-1/2 border-1 border-slate-700">
@@ -22,10 +23,11 @@ const After = ({ loadingAfter }: IAfter) => {
       <div className="flex w-full flex-1 p-4 overflow-auto">
         <div className="flex items-center h-full w-full bg-neutral-100 dark:bg-neutral-900">
           {loadingAfter && <Spinner message="Improving Resume" />}
-          {improvementsJson && !loadingAfter && (
+          {selectedMode === 'Response' && improvementsJson && !loadingAfter && !confirmJsonFormat && (
             <JSONViewer
               textJsonContent={improvementsJson}
               setTextJsonContent={setImprovementsJson}
+              setConfirmJsonFormat={setConfirmJsonFormat}
             />
           )}
         </div>

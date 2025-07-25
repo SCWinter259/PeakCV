@@ -57,7 +57,7 @@ const resumeSchema = JSON.stringify({
     properties: {
       languages: { type: 'array', items: { type: 'string' } },
       frameworksAndLibraries: { type: 'array', items: { type: 'string' } },
-      tools: { type: 'array', items: { type: 'array' } },
+      tools: { type: 'array', items: { type: 'string' } },
       databases: { type: 'array', items: { type: 'string' } },
     },
   },

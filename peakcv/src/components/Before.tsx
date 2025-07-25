@@ -24,6 +24,7 @@ const Before = ({ setLoadingAfter }: IBefore) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [spinnerMessage, setSpinnerMessage] = useState<string>('');
   const [selectedMode, setSelectedMode] = useState<'PDF' | 'JSON' | 'JD'>('PDF'); // default mode is PDF
+  const [confirmJsonFormat, setConfirmJsonFormat] = useState<boolean>(false);
 
   const [file, setFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -161,12 +162,12 @@ const Before = ({ setLoadingAfter }: IBefore) => {
             onClick={handleStartClick}
             disabled={resumeJson === ''}
             className={`w-42 my-1 p-1 rounded ${
-              resumeJson === ''
+              confirmJsonFormat
                 ? 'bg-gray-200 dark:bg-gray-800 text-gray-500 dark:text-gray-400 cursor-not-allowed'
                 : 'bg-green-500 hover:bg-green-600'
             }`}
           >
-            Start
+            Improve Resume
           </button>
         </div>
       </div>
@@ -194,7 +195,11 @@ const Before = ({ setLoadingAfter }: IBefore) => {
           {selectedMode === 'PDF' && !loading && file && <PDFViewer file={file} />}
           {/* This part is for JSON View */}
           {selectedMode === 'JSON' && (
-            <JSONViewer textJsonContent={resumeJson} setTextJsonContent={setResumeJson} />
+            <JSONViewer
+              textJsonContent={resumeJson}
+              setTextJsonContent={setResumeJson}
+              setConfirmJsonFormat={setConfirmJsonFormat}
+            />
           )}
           {/* This part is for the job description editor */}
           {selectedMode === 'JD' && <JobDescriptionEditor jobDescriptionRef={jobDescriptionRef} />}

@@ -9,9 +9,10 @@ import { ActionCreatorWithPayload } from '@reduxjs/toolkit';
 interface IJSONViewer {
   textJsonContent: string;
   setTextJsonContent: ActionCreatorWithPayload<any, string>;
+  setConfirmJsonFormat: (value: boolean) => void;
 }
 
-const JSONViewer = ({ textJsonContent, setTextJsonContent }: IJSONViewer) => {
+const JSONViewer = ({ textJsonContent, setTextJsonContent, setConfirmJsonFormat }: IJSONViewer) => {
   const dispatch = useDispatch<AppDispatch>();
   const [content, setContent] = useState<string>(textJsonContent);
 
@@ -22,6 +23,7 @@ const JSONViewer = ({ textJsonContent, setTextJsonContent }: IJSONViewer) => {
       const stringJson = JSON.stringify(parsed, null, 2);
       setContent(stringJson);
       dispatch(setTextJsonContent(stringJson)); // save formatted JSON to Redux store
+      setConfirmJsonFormat(true); // set confirmation state to true
     } catch (error) {
       console.error(error);
       alert('Invalid JSON format');
