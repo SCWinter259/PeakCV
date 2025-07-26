@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import Spinner from './Spinner';
 import JSONViewer from './JSONViewer';
 import { setImprovementsJson } from '@/lib/features/afterSlice';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import ImprovementList from './ImprovementList';
 
 interface IAfter {
@@ -17,6 +17,13 @@ const After = ({ loadingAfter }: IAfter) => {
   const [confirmJsonFormat, setConfirmJsonFormat] = useState<boolean>(false);
   const [selectedMode, setSelectedMode] = useState<'Suggestions' | 'LaTeX'>('Suggestions');
   const [confirmChanges, setConfirmChanges] = useState<boolean>(false);
+
+  // I want to ensure that if the user click Improve Resume again, all states have to be reset
+  useEffect(() => {
+    setConfirmJsonFormat(false);
+    setSelectedMode('Suggestions');
+    setConfirmChanges(false);
+  }, [improvementsJson]);
 
   return (
     <div className="flex flex-col h-screen w-1/2 border-1 border-slate-700">
