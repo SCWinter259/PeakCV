@@ -1,6 +1,15 @@
 import { GoogleGenAI } from '@google/genai';
 
 const resumeSchema = JSON.stringify({
+  intro: {
+    type: 'object',
+    properties: {
+      name: { type: 'string' },
+      location: { type: 'string' },
+      phone: { type: 'string' },
+      email: { type: 'string' },
+    },
+  },
   education: {
     type: 'array',
     items: {
@@ -48,24 +57,16 @@ const resumeSchema = JSON.stringify({
     properties: {
       languages: { type: 'array', items: { type: 'string' } },
       frameworksAndLibraries: { type: 'array', items: { type: 'string' } },
-      tools: { type: 'array', items: { type: 'array' } },
+      tools: { type: 'array', items: { type: 'string' } },
       databases: { type: 'array', items: { type: 'string' } },
     },
   },
 });
 
 const resumeChangeSchema = JSON.stringify({
-  changes: {
-    type: 'array',
-    items: {
-      type: 'object',
-      properties: {
-        old: { type: 'string' },
-        new: { type: 'string' },
-        reason: { type: 'string', nullable: true },
-      },
-    },
-  },
+  "old": { type: 'string' },
+  "new": { type: 'string' },
+  "reason": { type: 'string', nullable: true }
 });
 
 export const createResumeParsePrompt = (resumeText: string): string => {
@@ -92,11 +93,13 @@ and below is the job description:
 
 ${jobDescription}
 
-If no job description is provided, just simply improve the resume without any specific job context. The expected result is a JSON object with the following schema:
+If no job description is provided, just simply improve the resume without any specific job context. The expected result is the same JSON format as the resume content above, but any string that needs improvements should be replaced with an object of this schema:
 
 ${resumeChangeSchema}
 
-in which "old" is the piece of text that needs to be improved in the original resume content, and "new" is the improved text. The "reason" field is optional and can be used to explain why the change was made. If no reason is provided, it should be null. Do not include any other text in the response.
+In which, the value for "old" is the text from the original resume content that needs improvements, the value for "new" is the suggested change, and "reason" is an explanation of why the change is needed.
+
+If no change is needed, no need to change the original resume content. If no reason is provided, it should be null. Do not include any other text in the response.
 `;
 };
 
@@ -112,7 +115,7 @@ export const getGeminiResponse = async (prompt: string) => {
   try {
     const ai = getGeminiAI();
     const res = await ai.models.generateContent({
-      model: 'gemini-2.0-flash',
+      model: 'gemini-2.5-flash',
       contents: prompt,
     });
     return res.text;
