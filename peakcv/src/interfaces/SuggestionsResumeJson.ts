@@ -1,3 +1,10 @@
+export interface SuggestionWithLocation {
+    location: string;
+    old: string;
+    new: string;
+    reason: string | null;
+}
+
 export interface Suggestion {
     old: string;
     new: string;

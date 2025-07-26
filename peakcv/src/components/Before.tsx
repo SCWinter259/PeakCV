@@ -163,8 +163,8 @@ const Before = ({ setLoadingAfter }: IBefore) => {
             disabled={resumeJson === ''}
             className={`w-42 my-1 p-1 rounded ${
               confirmJsonFormat
-                ? 'bg-gray-200 dark:bg-gray-800 text-gray-500 dark:text-gray-400 cursor-not-allowed'
-                : 'bg-green-500 hover:bg-green-600'
+                ? 'bg-green-500 hover:bg-green-600'
+                : 'bg-gray-200 dark:bg-gray-800 text-gray-500 dark:text-gray-400 cursor-not-allowed'
             }`}
           >
             Improve Resume
