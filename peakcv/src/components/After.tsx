@@ -14,11 +14,13 @@ interface IAfter {
 
 const After = ({ loadingAfter }: IAfter) => {
   const improvementsJson = useSelector((state: RootState) => state.after.improvementsJson);
+  // const generatedLatex = useSelector((state: RootState) => state.after.generatedLatex);
   const [confirmJsonFormat, setConfirmJsonFormat] = useState<boolean>(false);
   const [selectedMode, setSelectedMode] = useState<'Suggestions' | 'LaTeX'>('Suggestions');
   const [confirmChanges, setConfirmChanges] = useState<boolean>(false);
 
   // I want to ensure that if the user click Improve Resume again, all states have to be reset
+  // with this, if improvementsJson changes, the JSON Viewer will still be there (because confirmChanges will be reset)
   useEffect(() => {
     setConfirmJsonFormat(false);
     setSelectedMode('Suggestions');
