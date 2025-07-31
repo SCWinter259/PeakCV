@@ -1,8 +1,14 @@
-import { Education, Experience, FormattedResumeJSON, Intro, Project, Skills } from "@/interfaces/FormattedResumeJSON";
+import {
+  Education,
+  Experience,
+  FormattedResumeJSON,
+  Intro,
+  Project,
+  Skills,
+} from '@/interfaces/FormattedResumeJSON';
 
-const formatDefinition = 
-`
-\\documentclass[letterpaper,12pt]{article}
+const formatDefinition = `
+\\documentclass[letterpaper,11pt]{article}
 
 \\usepackage{latexsym}
 \\usepackage[empty]{fullpage}
@@ -116,94 +122,118 @@ const formatDefinition =
 
 \\begin{document}
 
-`
+`;
+
+// basically this function escapes special characters
+const latexSafe = (text: string) => {
+  return text.replace(/%/g, '\\%').replace(/#/g, '\\#');
+};
 
 const createHeadingSection = (intro: Intro): string => {
-    return `
+  return `
 %----------HEADING----------
 
 \\begin{center}
-    {\\Huge \\scshape ${intro.name}} \\\\ \\vspace{1pt}
-    ${intro.location} \\\\ \\vspace{1pt}
-    \\small \\raisebox{-0.1\\height}\\faPhone\\ ${intro.phone} ~ \\href{mailto:${intro.email}}{\\raisebox{-0.2\\height}\\faEnvelope\\  \\underline{${intro.email}}} ~ 
+    {\\Huge \\scshape ${latexSafe(intro.name)}} \\\\ \\vspace{1pt}
+    ${latexSafe(intro.location)} \\\\ \\vspace{1pt}
+    \\small \\raisebox{-0.1\\height}\\faPhone\\ ${latexSafe(intro.phone)} ~ \\href{mailto:${latexSafe(intro.email)}}{\\raisebox{-0.2\\height}\\faEnvelope\\  \\underline{${latexSafe(intro.email)}}} ~ 
     \\href{}{\\raisebox{-0.2\\height}\\faLinkedin\\ \\underline{LinkedIn}} ~
     \\href{}{\\raisebox{-0.2\\height}\\faGithub\\ \\underline{GitHub}} ~
     \\vspace{-5pt}
 \\end{center}
 
 `;
-}
+};
 
 const createEducationSection = (educations: Education[]): string => {
-    return `
+  return `
 %-----------EDUCATION-----------
 \\section{Education}
   \\resumeSubHeadingListStart
-    ${educations.map(education => `
+    ${educations.map(
+      (education) => `
     \\resumeSubheading
-      {${education.school}}{${education.startDate} - ${education.endDate}}
-      {${education.degree}. GPA: ${education.gpa}}{${education.location}}
-    `)}
+      {${latexSafe(education.school)}}{${education.startDate} - ${education.endDate}}
+      {${latexSafe(education.degree)}. GPA: ${latexSafe(String(education.gpa))}}{${latexSafe(education.location)}}
+    `,
+    ).join('')}
   \\resumeSubHeadingListEnd
 \\vspace{-5pt}
 
-`
-}
+`;
+};
 
-const createExperienceSection = (experiences: Experience[]): string => { 
-    return `
+const createExperienceSection = (experiences: Experience[]): string => {
+  return `
 %-----------EXPERIENCE-----------
 \\section{Experience}
   \\resumeSubHeadingListStart
-    ${experiences.map(experience => `
+    ${experiences
+      .map(
+        (experience) => `
     \\resumeSubheading
-      {${experience.company}}{${experience.startDate} - ${experience.endDate}}
-      {${experience.position}}{${experience.location}}
+      {${latexSafe(experience.company)}}{${experience.startDate} - ${experience.endDate || 'Present'}}
+      {${latexSafe(experience.position)}}{${latexSafe(experience.location)}}
       \\resumeItemListStart
-        ${experience.achievements.map(achievement => `
-        \\resumeItem{${achievement}}    
-        `)}
+        ${experience.achievements
+          .map((achievement) => `
+        \\resumeItem{${latexSafe(achievement)}}
+        `)
+          .join('')}
       \\resumeItemListEnd
-    `)}
+    `,
+      )
+      .join('')}
   \\resumeSubHeadingListEnd
 \\vspace{-10pt}
 
-`
-}
+`;
+};
 
 const technologyListMaker = (technologies: string[]): string => {
-    let result = '';
-    for(const technology of technologies) {
-        result += technology + ', ';
-    }
-    return result.slice(0, -2); // Remove the last comma and space
-}
+  let result = '';
+  for (const technology of technologies) {
+    result += latexSafe(technology) + ', ';
+  }
+  return result.slice(0, -2); // Remove the last comma and space
+};
 
 const createProjectsSection = (projects: Project[]): string => {
-    return `
+  return `
 %-----------PROJECTS-----------
 \\section{Projects}
     \\vspace{-5pt}
     \\resumeSubHeadingListStart
-    ${projects.map(project => `
-        {\\textbf{${project.name}} $|$ 
-        \\emph{${technologyListMaker(project.technologies)}} $|$
-        \\href{}{\\faGithub}
-        \\href{}{\\faGlobe}
-        \\href{}{\\faYoutube}
-        }{${project.startDate} - ${project.endDate}}
-        \\resumeItemListStart
-          ${project.achievements.map(achievement => `
-          \\resumeItem{${achievement}} 
-          `)}
-        \\resumeItemListEnd 
-        \\vspace{-13pt}
-    `)}
+    ${projects
+      .map(
+        (project) => `
+        \\resumeProjectHeading
+            {\\textbf{${project.name}} $|$ 
+            \\emph{${technologyListMaker(project.technologies)}} $|$
+            \\href{}{\\faGithub}
+            \\href{}{\\faGlobe}
+            \\href{}{\\faYoutube}
+            }{${project.startDate} - ${project.endDate}}
+            \\resumeItemListStart
+              ${project.achievements
+                .map(
+                  (achievement) => `
+              \\resumeItem{${latexSafe(achievement)}}
+                `,
+                )
+                .join('')}
+          \\resumeItemListEnd 
+          \\vspace{-13pt}
+    `,
+      )
+      .join('')}
+    \\resumeSubHeadingListEnd
+  \\vspace{-5pt}
 `;
-}
+};
 
 const createSkillsSection = (skills: Skills) => {
-    return `
+  return `
 %-----------PROGRAMMING SKILLS-----------
 \\vspace{5pt}
 \\section{Technical Skills}
@@ -219,11 +249,11 @@ const createSkillsSection = (skills: Skills) => {
  \\vspace{-10pt}
 
 \\end{document}
-`
-}
+`;
+};
 
 export const jsonToLatexMapper = (resume: FormattedResumeJSON): string => {
-    return `
+  return `
 ${formatDefinition}
 ${createHeadingSection(resume.intro)}
 ${createEducationSection(resume.education)}
@@ -231,4 +261,4 @@ ${createExperienceSection(resume.experience)}
 ${createProjectsSection(resume.projects)}
 ${createSkillsSection(resume.skills)}    
 `;
-}
+};
