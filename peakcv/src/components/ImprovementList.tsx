@@ -54,6 +54,7 @@ const ImprovementList = ({ improvementsJson }: ImprovementListProps) => {
     // now that we have a modified resume object, translate to latex and save it to redux store
     console.log(jsonToLatexMapper(newObject));
     dispatch(setGeneratedLatex(jsonToLatexMapper(newObject)));
+    alert("LaTeX code is generated!");
   };
 
   // delete an item from the suggestion list

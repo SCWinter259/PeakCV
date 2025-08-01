@@ -260,5 +260,5 @@ ${createEducationSection(resume.education)}
 ${createExperienceSection(resume.experience)}
 ${createProjectsSection(resume.projects)}
 ${createSkillsSection(resume.skills)}    
-`;
+`.trim();
 };
