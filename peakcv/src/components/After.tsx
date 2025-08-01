@@ -1,12 +1,14 @@
 'use client';
 
 import { RootState } from '@/lib/store';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Spinner from './Spinner';
 import JSONViewer from './JSONViewer';
 import { setImprovementsJson } from '@/lib/features/afterSlice';
 import { useState, useEffect } from 'react';
 import ImprovementList from './ImprovementList';
+import { setGeneratedLatex } from '@/lib/features/afterSlice';
+import LatexViewer from './LatexViewer';
 
 interface IAfter {
   loadingAfter: boolean;
@@ -14,9 +16,12 @@ interface IAfter {
 
 const After = ({ loadingAfter }: IAfter) => {
   const improvementsJson = useSelector((state: RootState) => state.after.improvementsJson);
-  // const generatedLatex = useSelector((state: RootState) => state.after.generatedLatex);
+  const generatedLatex = useSelector((state: RootState) => state.after.generatedLatex);
+
+  const dispatch = useDispatch();
+
   const [confirmJsonFormat, setConfirmJsonFormat] = useState<boolean>(false);
-  const [selectedMode, setSelectedMode] = useState<'Suggestions' | 'LaTeX'>('Suggestions');
+  const [selectedMode, setSelectedMode] = useState<'Suggestions' | 'LaTeX' | 'PDF'>('Suggestions');
   const [confirmChanges, setConfirmChanges] = useState<boolean>(false);
 
   // I want to ensure that if the user click Improve Resume again, all states have to be reset
@@ -25,6 +30,7 @@ const After = ({ loadingAfter }: IAfter) => {
     setConfirmJsonFormat(false);
     setSelectedMode('Suggestions');
     setConfirmChanges(false);
+    dispatch(setGeneratedLatex(''));
   }, [improvementsJson]);
 
   return (
@@ -45,9 +51,9 @@ const After = ({ loadingAfter }: IAfter) => {
           </button>
           <button
             onClick={() => setSelectedMode('LaTeX')}
-            disabled={selectedMode === 'LaTeX' || !confirmChanges}
+            disabled={selectedMode === 'LaTeX' || generatedLatex === ''}
             className={`w-24 my-1 p-1 rounded ${
-              selectedMode === 'LaTeX' || !confirmChanges
+              selectedMode === 'LaTeX' || generatedLatex === ''
                 ? 'bg-gray-200 dark:bg-gray-800 text-gray-500 dark:text-gray-400 cursor-not-allowed'
                 : 'bg-gray-300 dark:bg-gray-600 hover:bg-gray-400 dark:hover:bg-gray-700'
             }`}
@@ -72,6 +78,7 @@ const After = ({ loadingAfter }: IAfter) => {
           {selectedMode === 'Suggestions' && confirmJsonFormat && !loadingAfter && (
             <ImprovementList improvementsJson={improvementsJson} />
           )}
+          {selectedMode === 'LaTeX' && <LatexViewer generatedLatex={generatedLatex} />}
         </div>
       </div>
     </div>
