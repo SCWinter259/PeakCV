@@ -8,7 +8,7 @@ import {
   createImproveResumePrompt,
   createResumeParsePrompt,
   getGeminiResponse,
-} from '@/utils/gemini';
+} from '@/api/gemini';
 import { useSelector, useDispatch } from 'react-redux';
 import { AppDispatch, RootState } from '@/lib/store';
 import { setResumeJson } from '@/lib/features/beforeSlice';
