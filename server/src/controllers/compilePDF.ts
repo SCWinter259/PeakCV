@@ -12,30 +12,25 @@ export const compilePDF = async (req: Request, res: Response): Promise<any> => {
     return res.status(400).send('Missing LaTeX content');
   }
 
-  console.log(latexString);
-
   // create a temp directory
   // we add the dash at the end of latex because mkdtempSync will add random characters at the end of the path to make it unique
   const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'latex-'));
   const texFilePath = path.join(tempDir, 'document.tex');
   const pdfFilePath = path.join(tempDir, 'document.pdf');
 
-  console.log('create paths');
-
   // write the Latex string onto the tex file
   fs.writeFileSync(texFilePath, latexString);
-
-  console.log('wrote into file');
 
   // run the command
   const pdflatex = spawn('pdflatex', [
     '-interaction=nonstopmode',
+    '-halt-on-error',
     `-output-directory=${tempDir}`,
     texFilePath,
   ]);
 
   pdflatex.stdout.on('data', (data) => {
-    console.log(`stdout: ${data}`);
+    // console.log(`stdout: ${data}`); ignore stdout
   });
 
   pdflatex.stderr.on('data', (data) => {

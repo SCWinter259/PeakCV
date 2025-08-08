@@ -9,6 +9,7 @@ import { useState, useEffect } from 'react';
 import ImprovementList from './ImprovementList';
 import { setGeneratedLatex } from '@/lib/features/afterSlice';
 import LatexViewer from './LatexViewer';
+import PDFViewer from './PDFViewer';
 
 interface IAfter {
   loadingAfter: boolean;
@@ -20,16 +21,15 @@ const After = ({ loadingAfter }: IAfter) => {
 
   const dispatch = useDispatch();
 
+  const [file, setFile] = useState<File | null>(null);
   const [confirmJsonFormat, setConfirmJsonFormat] = useState<boolean>(false);
   const [selectedMode, setSelectedMode] = useState<'Suggestions' | 'LaTeX' | 'PDF'>('Suggestions');
-  const [confirmChanges, setConfirmChanges] = useState<boolean>(false);
 
   // I want to ensure that if the user click Improve Resume again, all states have to be reset
   // with this, if improvementsJson changes, the JSON Viewer will still be there (because confirmChanges will be reset)
   useEffect(() => {
     setConfirmJsonFormat(false);
     setSelectedMode('Suggestions');
-    setConfirmChanges(false);
     dispatch(setGeneratedLatex(''));
   }, [improvementsJson]);
 
@@ -60,6 +60,17 @@ const After = ({ loadingAfter }: IAfter) => {
           >
             LaTeX
           </button>
+          <button
+            onClick={() => setSelectedMode('PDF')}
+            disabled={selectedMode === 'PDF' || !file}
+            className={`w-24 my-1 p-1 rounded ${
+              selectedMode === 'PDF' || !file
+                ? 'bg-gray-200 dark:bg-gray-800 text-gray-500 dark:text-gray-400 cursor-not-allowed'
+                : 'bg-gray-300 dark:bg-gray-600 hover:bg-gray-400 dark:hover:bg-gray-700'
+            }`}
+          >
+            PDF
+          </button>
         </div>
       </div>
       <div className="flex w-full flex-1 p-4 overflow-auto">
@@ -75,10 +86,11 @@ const After = ({ loadingAfter }: IAfter) => {
                 setConfirmJsonFormat={setConfirmJsonFormat}
               />
             )}
-          {selectedMode === 'Suggestions' && confirmJsonFormat && !loadingAfter && (
+          {selectedMode === 'Suggestions' && confirmJsonFormat && (
             <ImprovementList improvementsJson={improvementsJson} />
           )}
-          {selectedMode === 'LaTeX' && <LatexViewer generatedLatex={generatedLatex} />}
+          {selectedMode === 'LaTeX' && <LatexViewer generatedLatex={generatedLatex} setFile={setFile} />}
+          {selectedMode === 'PDF' && file && <PDFViewer file={file}/>}
         </div>
       </div>
     </div>

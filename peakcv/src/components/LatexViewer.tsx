@@ -1,20 +1,36 @@
 'use client';
 
+import { generatePDF } from '@/api/api';
+import { setGeneratedLatex } from '@/lib/features/afterSlice';
 import { Editor } from '@monaco-editor/react';
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 
 interface ILatexViewer {
   generatedLatex: string;
+  setFile: (file: File) => void;
 }
 
-const LatexViewer = ({ generatedLatex }: ILatexViewer) => {
+const LatexViewer = ({ generatedLatex, setFile }: ILatexViewer) => {
   const [content, setContent] = useState<string>(generatedLatex);
+  const dispatch = useDispatch();
 
   // send a create PDF request, set the content from the editor,
   // set the generated latex in the redux store
-  // set the returned file and the list of errors to the After component
+  // set the returned file and the list of errors to the After component (not needed yet)
   // the After component would then render "PDF" mode accordingly
-  const handleCreatePDF = (content: string) => {};
+  const handleCreatePDF = async (content: string) => {
+    dispatch(setGeneratedLatex(content));
+
+    try {
+      const pdfBlob = await generatePDF(content);
+      const file = new File([pdfBlob], "resume.pdf", { type: "application/pdf" });
+      setFile(file);
+      alert('PDF has been created!');
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div className="w-full h-full flex flex-col items-center justify-center p-4">
