@@ -31,7 +31,20 @@ const After = ({ loadingAfter }: IAfter) => {
     setConfirmJsonFormat(false);
     setSelectedMode('Suggestions');
     dispatch(setGeneratedLatex(''));
+    setFile(null);
   }, [improvementsJson]);
+
+  const handleDownloadClick = () => {
+    if(file) {
+      const url = window.URL.createObjectURL(file);
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", "Resume_new.pdf");
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+    }
+  }
 
   return (
     <div className="flex flex-col h-screen w-1/2 border-1 border-slate-700">
@@ -70,6 +83,19 @@ const After = ({ loadingAfter }: IAfter) => {
             }`}
           >
             PDF
+          </button>
+        </div>
+        <div className="flex ml-auto mr-4">
+          <button
+            onClick={handleDownloadClick}
+            disabled={!file}
+            className={`w-42 my-1 p-1 rounded ${
+              file
+                ? 'bg-green-500 hover:bg-green-600'
+                : 'bg-gray-200 dark:bg-gray-800 text-gray-500 dark:text-gray-400 cursor-not-allowed'
+            }`}
+          >
+            Download Resume
           </button>
         </div>
       </div>
