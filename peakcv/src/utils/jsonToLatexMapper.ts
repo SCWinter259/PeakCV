@@ -7,6 +7,8 @@ import {
   Skills,
 } from '@/interfaces/FormattedResumeJSON';
 
+import lescape from 'escape-latex';
+
 const formatDefinition = `
 \\documentclass[letterpaper,11pt]{article}
 
@@ -124,19 +126,14 @@ const formatDefinition = `
 
 `;
 
-// basically this function escapes special characters
-const latexSafe = (text: string) => {
-  return text.replace(/%/g, '\\%').replace(/#/g, '\\#');
-};
-
 const createHeadingSection = (intro: Intro): string => {
   return `
 %----------HEADING----------
 
 \\begin{center}
-    {\\Huge \\scshape ${latexSafe(intro.name)}} \\\\ \\vspace{1pt}
-    ${latexSafe(intro.location)} \\\\ \\vspace{1pt}
-    \\small \\raisebox{-0.1\\height}\\faPhone\\ ${latexSafe(intro.phone)} ~ \\href{mailto:${latexSafe(intro.email)}}{\\raisebox{-0.2\\height}\\faEnvelope\\  \\underline{${latexSafe(intro.email)}}} ~ 
+    {\\Huge \\scshape ${lescape(intro.name)}} \\\\ \\vspace{1pt}
+    ${lescape(intro.location)} \\\\ \\vspace{1pt}
+    \\small \\raisebox{-0.1\\height}\\faPhone\\ ${lescape(intro.phone)} ~ \\href{mailto:${lescape(intro.email)}}{\\raisebox{-0.2\\height}\\faEnvelope\\  \\underline{${lescape(intro.email)}}} ~ 
     \\href{}{\\raisebox{-0.2\\height}\\faLinkedin\\ \\underline{LinkedIn}} ~
     \\href{}{\\raisebox{-0.2\\height}\\faGithub\\ \\underline{GitHub}} ~
     \\vspace{-5pt}
@@ -153,8 +150,8 @@ const createEducationSection = (educations: Education[]): string => {
     ${educations.map(
       (education) => `
     \\resumeSubheading
-      {${latexSafe(education.school)}}{${education.startDate} - ${education.endDate}}
-      {${latexSafe(education.degree)}. GPA: ${latexSafe(String(education.gpa))}}{${latexSafe(education.location)}}
+      {${lescape(education.school)}}{${education.startDate} - ${education.endDate}}
+      {${lescape(education.degree)}. GPA: ${lescape(String(education.gpa))}}{${lescape(education.location)}}
     `,
     ).join('')}
   \\resumeSubHeadingListEnd
@@ -172,12 +169,12 @@ const createExperienceSection = (experiences: Experience[]): string => {
       .map(
         (experience) => `
     \\resumeSubheading
-      {${latexSafe(experience.company)}}{${experience.startDate} - ${experience.endDate || 'Present'}}
-      {${latexSafe(experience.position)}}{${latexSafe(experience.location)}}
+      {${lescape(experience.company)}}{${experience.startDate} - ${experience.endDate || 'Present'}}
+      {${lescape(experience.position)}}{${lescape(experience.location)}}
       \\resumeItemListStart
         ${experience.achievements
           .map((achievement) => `
-        \\resumeItem{${latexSafe(achievement)}}
+        \\resumeItem{${lescape(achievement)}}
         `)
           .join('')}
       \\resumeItemListEnd
@@ -193,7 +190,7 @@ const createExperienceSection = (experiences: Experience[]): string => {
 const technologyListMaker = (technologies: string[]): string => {
   let result = '';
   for (const technology of technologies) {
-    result += latexSafe(technology) + ', ';
+    result += lescape(technology) + ', ';
   }
   return result.slice(0, -2); // Remove the last comma and space
 };
@@ -218,7 +215,7 @@ const createProjectsSection = (projects: Project[]): string => {
               ${project.achievements
                 .map(
                   (achievement) => `
-              \\resumeItem{${latexSafe(achievement)}}
+              \\resumeItem{${lescape(achievement)}}
                 `,
                 )
                 .join('')}
