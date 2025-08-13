@@ -2,7 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import router from './routes';
 
-const PORT = 3001
+const PORT = 8080
 
 // initialize the app
 const app = express();
@@ -13,6 +13,6 @@ app.use(cors());
 app.use("/", router);
 
 // start the server
-app.listen(PORT, () => {
-    console.log(`Server listening on http://localhost:${PORT}`)
+app.listen(PORT, '0.0.0.0', () => {
+    console.log(`Server listening on http://0.0.0.0:${PORT} in Docker, Docker forwarding to 3001`)
 });
