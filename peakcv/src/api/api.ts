@@ -9,7 +9,7 @@ import axios from 'axios';
  */
 export const generatePDF = async (latexString: string): Promise<Blob> => {
   const response = await axios.post(
-    'http://localhost:3001/compile',
+    `http://${process.env.NEXT_PUBLIC_SERVER_URL}/compile`,
     { latex: latexString }, // your JSON payload
     {
       headers: {
