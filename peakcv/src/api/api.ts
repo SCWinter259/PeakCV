@@ -2,6 +2,8 @@
 
 import axios from 'axios';
 
+const testUrl = "http://localhost:3000"
+
 /**
  * Makes an api call to [host]/compile, sends the latex string and gets back the pdf version (in binary)
  * @param latexString the LaTeX code, stored as a string
@@ -9,7 +11,7 @@ import axios from 'axios';
  */
 export const generatePDF = async (latexString: string): Promise<Blob> => {
   const response = await axios.post(
-    `http://${process.env.NEXT_PUBLIC_SERVER_URL}/compile`,
+    `https://${process.env.NEXT_PUBLIC_SERVER_URL}/compile`,
     { latex: latexString }, // your JSON payload
     {
       headers: {
