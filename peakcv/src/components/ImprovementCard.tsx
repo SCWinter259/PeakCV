@@ -26,8 +26,8 @@ const handleClick = () => {
         <div>
           <p className="text-sm text-gray-300">{suggestion.location}</p>
           <p className="text-red-400 font-semibold">{suggestion.old}</p>
-          <p className="text-green-400 font-semibold">{suggestion.new}</p>
-          <p className="text-gray-400 text-xs">{suggestion.reason}</p>
+          <p className="text-green-400 font-semibold">{suggestion.new || 'Delete Sentence'}</p>
+          {suggestion.reason && <p className="text-gray-400 text-xs">{suggestion.reason}</p>}
         </div>
         <button onClick={handleClick} className="text-red-400 hover:text-red-600">
           <TrashIcon className="w-5 h-5" />

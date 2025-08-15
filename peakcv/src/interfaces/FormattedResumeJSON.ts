@@ -9,7 +9,7 @@ export interface Education {
   school: string;
   degree: string;
   startDate: string;
-  endDate: string;
+  endDate: string | null;
   location: string;
   gpa: string | null;
 }

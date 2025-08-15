@@ -112,11 +112,11 @@ const After = ({ loadingAfter }: IAfter) => {
                 setConfirmJsonFormat={setConfirmJsonFormat}
               />
             )}
-          {selectedMode === 'Suggestions' && confirmJsonFormat && (
+          {!loadingAfter && selectedMode === 'Suggestions' && confirmJsonFormat && (
             <ImprovementList improvementsJson={improvementsJson} />
           )}
-          {selectedMode === 'LaTeX' && <LatexViewer generatedLatex={generatedLatex} setFile={setFile} />}
-          {selectedMode === 'PDF' && file && <PDFViewer file={file}/>}
+          {!loadingAfter && selectedMode === 'LaTeX' && generatedLatex !== '' && <LatexViewer generatedLatex={generatedLatex} setFile={setFile} />}
+          {!loadingAfter && selectedMode === 'PDF' && file && <PDFViewer file={file}/>}
         </div>
       </div>
     </div>
