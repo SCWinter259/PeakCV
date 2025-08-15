@@ -151,7 +151,7 @@ const createEducationSection = (educations: Education[]): string => {
       (education) => `
     \\resumeSubheading
       {${lescape(education.school)}}{${education.startDate} - ${education.endDate || "Present"}}
-      {${lescape(education.degree)}. GPA: ${lescape(String(education.gpa))}}{${lescape(education.location)}}
+      {${lescape(education.degree)}. ${education.gpa ? (`GPA: ${lescape(String(education.gpa))}`) : ""}}{${lescape(education.location)}}
     `,
     ).join('')}
   \\resumeSubHeadingListEnd
