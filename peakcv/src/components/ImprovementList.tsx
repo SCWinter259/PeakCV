@@ -48,6 +48,12 @@ const ImprovementList = ({ improvementsJson }: ImprovementListProps) => {
       const lastKey = isNaN(Number(locationParts[locationParts.length - 1]))
         ? locationParts[locationParts.length - 1]
         : Number(locationParts[locationParts.length - 1]);
+
+      // all our last-level arrays are string[], and we don't take null value in those.
+      // if the lastKey is a number, the current must be a string[]. If a null is met in this case, remove the original text
+      if(typeof lastKey === 'number' && Array.isArray(current) && !suggestion.new) {
+        current.splice(lastKey, lastKey);
+      }
       current[lastKey] = suggestion.new;
     }
 

@@ -150,7 +150,7 @@ const createEducationSection = (educations: Education[]): string => {
     ${educations.map(
       (education) => `
     \\resumeSubheading
-      {${lescape(education.school)}}{${education.startDate} - ${education.endDate}}
+      {${lescape(education.school)}}{${education.startDate} - ${education.endDate || "Present"}}
       {${lescape(education.degree)}. GPA: ${lescape(String(education.gpa))}}{${lescape(education.location)}}
     `,
     ).join('')}
@@ -207,10 +207,10 @@ const createProjectsSection = (projects: Project[]): string => {
         \\resumeProjectHeading
             {\\textbf{${project.name}} $|$ 
             \\emph{${technologyListMaker(project.technologies)}} $|$
-            \\href{}{\\faGithub}
-            \\href{}{\\faGlobe}
-            \\href{}{\\faYoutube}
-            }{${project.startDate} - ${project.endDate}}
+            %\\href{}{\\faGithub}
+            %\\href{}{\\faGlobe}
+            %\\href{}{\\faYoutube}
+            }{${project.startDate} - ${project.endDate || "Present"}}
             \\resumeItemListStart
               ${project.achievements
                 .map(

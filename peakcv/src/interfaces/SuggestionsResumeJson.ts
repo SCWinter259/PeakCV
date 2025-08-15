@@ -1,13 +1,13 @@
 export interface SuggestionWithLocation {
     location: string;
     old: string;
-    new: string;
+    new: string | null;
     reason: string | null;
 }
 
 export interface Suggestion {
     old: string;
-    new: string;
+    new: string | null;
     reason: string | null;
 }
 
